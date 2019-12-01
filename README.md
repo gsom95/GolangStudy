@@ -1,2 +1,2 @@
 # GolangStudy
-Just like https://github.com/gsom95/PythonStudy but for Go
+Inspired by https://github.com/karan/Projects
