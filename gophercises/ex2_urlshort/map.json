@@ -1,0 +1,10 @@
+[
+    {
+        "path": "/hn",
+        "url": "https://news.ycombinator.com/"
+    },
+    {
+        "path": "/myrepo",
+        "url": "https://github.com/gsom95/"
+    }
+]

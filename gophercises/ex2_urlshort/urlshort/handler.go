@@ -1,6 +1,7 @@
 package urlshort
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"gopkg.in/yaml.v2"
@@ -24,24 +25,19 @@ func MapHandler(pathsToUrls map[string]string, fallback http.Handler) http.Handl
 	}
 }
 
-// YAMLHandler will parse the provided YAML and then return
+// CreateHandler will parse the provided YAML or JSON and then return
 // an http.HandlerFunc (which also implements http.Handler)
 // that will attempt to map any paths to their corresponding
-// URL. If the path is not provided in the YAML, then the
+// URL. If the path is not provided in the file, then the
 // fallback http.Handler will be called instead.
 //
-// YAML is expected to be in the format:
-//
-//     - path: /some-path
-//       url: https://www.some-url.com/demo
-//
 // The only errors that can be returned all related to having
-// invalid YAML data.
+// invalid YAML or JSON data.
 //
 // See MapHandler to create a similar http.HandlerFunc via
 // a mapping of paths to urls.
-func YAMLHandler(yml []byte, fallback http.Handler) (http.HandlerFunc, error) {
-	pathURLs, err := parseYAML(yml)
+func CreateHandler(data []byte, dataType string, fallback http.Handler) (http.HandlerFunc, error) {
+	pathURLs, err := parse(data, dataType)
 	if err != nil {
 		return nil, err
 	}
@@ -56,9 +52,16 @@ type pathToURL struct {
 	URL  string `yaml:"url" json:"url"`
 }
 
-func parseYAML(data []byte) ([]pathToURL, error) {
+func parse(data []byte, dataType string) ([]pathToURL, error) {
 	var pathURLs []pathToURL
-	err := yaml.Unmarshal(data, &pathURLs)
+	var err error
+	switch dataType {
+	case "yaml":
+		err = yaml.Unmarshal(data, &pathURLs)
+	case "json":
+		err = json.Unmarshal(data, &pathURLs)
+	}
+
 	if err != nil {
 		return nil, err
 	}
