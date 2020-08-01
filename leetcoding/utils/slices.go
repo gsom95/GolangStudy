@@ -5,8 +5,8 @@ func EqualIntSlices(left, right []int) bool {
 	if len(left) != len(right) {
 		return false
 	}
-	for index, leftValue := range left {
-		if leftValue != right[index] {
+	for i, lv := range left {
+		if lv != right[i] {
 			return false
 		}
 	}
@@ -18,8 +18,22 @@ func EqualInt32Slices(left, right []int32) bool {
 	if len(left) != len(right) {
 		return false
 	}
-	for index, leftValue := range left {
-		if leftValue != right[index] {
+	for i, lv := range left {
+		if lv != right[i] {
+			return false
+		}
+	}
+
+	return true
+}
+
+func EqualBoolSlices(left, right []bool) bool {
+	if len(left) != len(right) {
+		return false
+	}
+
+	for i, lv := range left {
+		if lv != right[i] {
 			return false
 		}
 	}
