@@ -72,3 +72,13 @@ func TestBinarySearchRecursive(t *testing.T) {
 		})
 	}
 }
+
+func TestBinarySearchLoop(t *testing.T) {
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := BinarySearchLoop(tt.args.arr, tt.args.find); got != tt.want {
+				t.Errorf("BinarySearchLoop() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
